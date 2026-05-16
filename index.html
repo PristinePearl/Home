@@ -1733,4 +1733,128 @@ function openProcessModal(title,subtitle){document.getElementById('processModalT
 function closeProcessModal(){const overlay=document.getElementById('processModalOverlay'),box=document.getElementById('processModalBox');box.classList.add('scale-95','opacity-0');box.classList.remove('scale-100','opacity-100');setTimeout(()=>overlay.classList.add('hidden'),300);document.body.style.overflow='auto';}
 
 // ═══════════════════════════════════════════
-// CARD PREP (list
+// ═══════════════════════════════════════════
+// CARD PREP (list mode arrow injection)
+// ═══════════════════════════════════════════
+function injectListArrows(){
+    document.querySelectorAll('.glass-card,.wip-card').forEach(card=>{
+        if(card.querySelector('.card-arrow'))return;
+        const arrow=document.createElement('div');
+        arrow.className='card-arrow';
+        arrow.innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+        card.appendChild(arrow);
+    });
+}
+
+function injectCardText(){
+    document.querySelectorAll('.glass-card,.wip-card').forEach(card=>{
+        const h3=card.querySelector('h3');
+        const p=card.querySelector('p');
+        if(!h3)return;
+        if(card.querySelector('.card-text'))return;
+        const wrapper=document.createElement('div');
+        wrapper.className='card-text';
+        h3.parentNode.insertBefore(wrapper,h3);
+        wrapper.appendChild(h3);
+        if(p)wrapper.appendChild(p);
+    });
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+    // Apply saved view
+    const savedView=ls_get(KEYS.view,'grid');
+    const savedCfg=ls_get(KEYS.settings,{});
+    setView(savedCfg.defaultView||savedView,true);
+
+    // Inject list-mode helpers
+    injectListArrows();
+    injectCardText();
+
+    // Keyboard badges
+    buildKbdBadges();
+
+    // Render recent & favs
+    renderRecent();
+    renderFavChips();
+    applyFavStars();
+
+    // Apply page visibility
+    applyPageVisibility();
+
+    // Load all settings
+    loadSettings();
+
+    // WIP section
+    const cfg=ls_get(KEYS.settings,{});
+    toggleWipSection(cfg.showWip!==false);
+    const wipDiv=document.getElementById('wipDivider');
+    if(wipDiv)wipDiv.style.display=cfg.showDivider!==false?'':'none';
+
+    // Footer & support
+    toggleFooter(cfg.showFooter!==false);
+    toggleSupport(cfg.showSupport!==false);
+
+    // Sticky nav
+    if(cfg.stickyNav)toggleStickyNav(true);
+
+    // Card desc & badges
+    toggleCardDesc(cfg.showDesc!==false);
+    toggleCardBadges(cfg.showBadges!==false);
+
+    // Animations
+    if(cfg.animations===false){
+        const style=document.getElementById('noAnimStyle')||
+            document.head.appendChild(Object.assign(document.createElement('style'),{id:'noAnimStyle'}));
+        style.textContent='*,*::before,*::after{animation:none!important;transition:none!important;}';
+    }
+
+    // Compact mode
+    if(cfg.compact){
+        const m=document.querySelector('main');
+        if(m)m.classList.add('compact-mode');
+    }
+
+    // Orbs
+    toggleAnimOrbs(cfg.animOrbs!==false);
+
+    // Grid cols & density
+    const gc=cfg.gridCols||ls_get(KEYS.gridCols,'3');
+    applyGridColsVal(gc);
+    const colEl=document.getElementById('cols-'+gc);
+    if(colEl){
+        document.querySelectorAll('[id^="cols-"]').forEach(e=>e.classList.remove('active'));
+        colEl.classList.add('active');
+    }
+    const dn=cfg.density||ls_get(KEYS.density,'cozy');
+    applyDensityVal(dn);
+    const dnEl=document.getElementById('density-'+dn);
+    if(dnEl){
+        document.querySelectorAll('[id^="density-"]').forEach(e=>e.classList.remove('active'));
+        dnEl.classList.add('active');
+    }
+
+    // Clear on close
+    if(cfg.clearOnClose){
+        window.addEventListener('beforeunload',()=>saveRecent([]));
+    }
+
+    // Recent section visibility
+    if(cfg.showRecent===false){
+        document.getElementById('recentSection')?.classList.add('hidden');
+    }
+    if(cfg.showFavs===false){
+        document.getElementById('favSection')?.classList.add('hidden');
+    }
+
+    // Portal title
+    if(cfg.portalTitle)applyPortalTitle(cfg.portalTitle);
+
+    // Keyboard hints class
+    if(cfg.kbdHints!==false)document.body.classList.add('shortcuts-hint-hover');
+});
+</script>
+</body>
+</html>
