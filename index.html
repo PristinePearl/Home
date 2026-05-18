@@ -508,6 +508,14 @@
                   <h3 class="text-2xl font-bold mb-2">MANPOWER</h3>
                   <p class="text-slate-400 text-sm leading-relaxed">Sales & Headoffice.</p>
               </a>
+              
+               <!-- Prints-Inv -->
+              <a href="https://pristinepearl.github.io/Prints-Inv/" target="_blank" onclick="recordVisit('prints-inv')" class="glass-card rounded-[2.5rem] p-10" data-id="prints-inv">
+    <div class="fav-star" onclick="event.stopPropagation();toggleFav('prints-inv')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-violet-400"><path d="M6 9V2h12v7"/><rect x="3" y="9" width="18" height="10" rx="1"/><path class="doc-line doc-line-1" d="M6 18v4h12v-4"/><circle cx="18" cy="14" r="1" style="animation:srvPulse 1.5s ease-in-out infinite;"/></svg></div>
+    <h3 class="text-2xl font-bold mb-2">PRINTS - INV</h3>
+    <p class="text-slate-400 text-sm leading-relaxed">Inventory & Assets Management.</p>
+</a>
   
           </div>
   
@@ -531,12 +539,6 @@
                   <div class="icon-container" style="opacity:0.45;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-400"><path d="M2 12h4l3-9 4 18 3-9h4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                   <h3 class="text-2xl font-bold mb-2 text-slate-500">TA DESK</h3>
                   <p class="text-slate-600 text-sm leading-relaxed">Reports & Analysis.</p>
-              </div>
-              <div onclick="openProcessModal('PRINTS - INV','Inventory & Assets Management')" class="wip-card rounded-[2.5rem] p-10 cursor-pointer" data-wip-id="prints-inv">
-                  <div class="icon-container" style="opacity:0.45;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-400"><path d="M6 9V2h12v7"/><rect x="3" y="9" width="18" height="10" rx="1"/><path d="M6 18v4h12v-4"/><circle cx="18" cy="14" r="1"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2 text-slate-500">PRINTS - INV</h3>
-                  <p class="text-slate-600 text-sm leading-relaxed">Inventory & Assets Management.</p>
-              </div>
           </div>
       </main>
   
@@ -962,7 +964,7 @@
                       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
                           <div class="metric-card"><div class="metric-label">Avg response</div><div class="metric-value" id="srvMetAvg">—</div><div class="metric-unit">ms</div></div>
                           <div class="metric-card"><div class="metric-label">Uptime 24h</div><div class="metric-value" id="srvMetUp">—</div><div class="metric-unit">%</div></div>
-                          <div class="metric-card"><div class="metric-label">Pages live</div><div class="metric-value" id="srvMetPages">—</div><div class="metric-unit">/ 12</div></div>
+                          <div class="metric-card"><div class="metric-label">Pages live</div><div class="metric-value" id="srvMetPages">—</div><div class="metric-unit">/ 13</div></div>
                       </div>
                       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
                           <div class="metric-card"><div class="metric-label">Requests (24h)</div><div class="metric-value" id="srvMetReq">—</div></div>
@@ -1103,8 +1105,10 @@
       'km-verifier':{label:'KM Verifier',dotColor:'#2dd4bf',url:'https://pristinepearl.github.io/TA-KM/'},
       'depot-os':{label:'Depot OS',dotColor:'#38bdf8',url:'https://pristinepearl.github.io/DepotOS/'},
       'manpower':{label:'ManPower',dotColor:'#a3e635',url:'https://pristinepearl.github.io/ManPower/'},
+      'prints-inv':{label:'Prints - Inv',dotColor:'#a78bfa',url:'https://pristinepearl.github.io/Prints-Inv/'},
       'sales-return':{label:'Sales Return',dotColor:'#60a5fa',url:null},
       'cheque':{label:'Cheque',dotColor:'#34d399',url:null},
+      
   };
   
   const allPages = [
@@ -1120,6 +1124,7 @@
       {id:'km-verifier',label:'KM Verifier',dotColor:'#2dd4bf'},
       {id:'depot-os',label:'Depot OS',dotColor:'#38bdf8'},
       {id:'manpower',label:'ManPower',dotColor:'#a3e635'},
+      {id:'prints-inv',label:'Prints - Inv',dotColor:'#a78bfa'},
   ];
   const allWip = [{id:'acc-mis',label:'ACC MIS'},{id:'ta-desk',label:'TA DESK'},{id:'prints-inv',label:'PRINTS - INV'}];
   
@@ -1486,6 +1491,7 @@
       {id:'km-verifier',label:'KM Verifier',desc:'TA Distance & Category Verification',dotColor:'#2dd4bf',action:()=>{window.open('https://pristinepearl.github.io/TA-KM/','_blank');recordVisit('km-verifier');}},
       {id:'depot-os',label:'Depot OS',desc:'Depot Operations System',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/DepotOS/','_blank');recordVisit('depot-os');}},
       {id:'manpower',label:'ManPower',desc:'Sales & Headoffice',dotColor:'#a3e635',action:()=>{window.open('https://pristinepearl.github.io/ManPower/','_blank');recordVisit('manpower');}},
+      {id:'prints-inv',label:'Prints - Inv',desc:'Inventory & Assets Management',dotColor:'#a78bfa',action:()=>{window.open('https://pristinepearl.github.io/Prints-Inv/','_blank');recordVisit('prints-inv');}},
       {id:'server',label:'Server Monitor',desc:'Monitor all pages',dotColor:'#38bdf8',action:()=>openServerModal()},
       {id:'settings',label:'Settings',desc:'Configure portal',dotColor:'#64748b',action:()=>openSettings()},
   ];
@@ -1533,6 +1539,7 @@
       {key:'M',label:'KM Verifier',dotColor:'#2dd4bf',action:()=>{window.open('https://pristinepearl.github.io/TA-KM/','_blank');recordVisit('km-verifier');}},
       {key:'O',label:'Depot OS',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/DepotOS/','_blank');recordVisit('depot-os');}},
       {key:'P',label:'ManPower',dotColor:'#a3e635',action:()=>{window.open('https://pristinepearl.github.io/ManPower/','_blank');recordVisit('manpower');}},
+      {key:'I',label:'Prints - Inv',dotColor:'#a78bfa',action:()=>{window.open('https://pristinepearl.github.io/Prints-Inv/','_blank');recordVisit('prints-inv');}},
       {key:'V',label:'Server Monitor',dotColor:'#38bdf8',action:()=>{openServerModal();}},
       {key:'G',label:'Toggle Grid/List',dotColor:'#64748b',action:()=>{const cur=document.querySelector('main')?.classList.contains('list-mode');setView(cur?'grid':'list');}},
       {key:',',label:'Settings',dotColor:'#64748b',action:()=>openSettings()},
@@ -1597,7 +1604,7 @@
       {id:'acc',title:'ACC Task',url:'/ACC-Task',color:'#818cf8'},{id:'stn',title:'Stationery',url:'/Stationery',color:'#22d3ee'},
       {id:'car',title:'Cartons',url:'/Cartons',color:'#fb923c'},{id:'hr',title:'HR Docs',url:'/HR-Docs',color:'#e879f9'},
       {id:'km',title:'KM Verifier',url:'/TA-KM',color:'#2dd4bf'},{id:'depot',title:'Depot OS',url:'/DepotOS',color:'#38bdf8'},
-      {id:'mp',title:'ManPower',url:'/ManPower',color:'#a3e635'},{id:'sr',title:'Sales Return',url:'/sreturn',color:'#60a5fa'},
+      {id:'mp',title:'ManPower',url:'/ManPower',color:'#a3e635'},{id:'prints-inv',title:'Prints - Inv',url:'/Prints-Inv',color:'#a78bfa'},
   ];
   const srvChecks=[
       {id:'dns',label:'DNS Resolution',desc:'github.io resolves correctly'},
@@ -2148,6 +2155,7 @@
           {id:'stationery',label:'Stationery'},{id:'cartons',label:'Cartons'},
           {id:'hr-docs',label:'HR Docs'},{id:'km-verifier',label:'KM Verifier'},
           {id:'depot-os',label:'Depot OS'},{id:'manpower',label:'ManPower'},
+          {id:'prints-inv',label:'Prints - Inv'},
       ];
       noteableCards.forEach(({id,label})=>{
           const card=document.querySelector(`.glass-card[data-id="${id}"]`);
