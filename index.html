@@ -64,6 +64,11 @@
           .manpower-person-2{animation:personPulse 2s 0.4s ease-in-out infinite;}
           .manpower-person-3{animation:personPulse 2s 0.8s ease-in-out infinite;}
           @keyframes personPulse{0%,100%{opacity:0.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+          @keyframes salesDraw {
+    0%   { stroke-dashoffset: 60; opacity: 0.3; }
+    60%  { stroke-dashoffset: 0;  opacity: 1;   }
+    100% { stroke-dashoffset: 0;  opacity: 1;   }
+}
   
           .wip-card{background:rgba(20,28,42,0.35);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.04);transition:all 0.3s ease;filter:grayscale(1);opacity:0.6;}
           .wip-card:hover{opacity:0.8;border-color:rgba(148,163,184,0.2);transform:translateY(-4px);}
@@ -517,6 +522,20 @@
     <p class="text-slate-400 text-sm leading-relaxed">Inventory & Assets Management.</p>
 </a>
   
+  <!-- Sales History -->
+<a href="https://pristinepearl.github.io/sku/sales" target="_blank" onclick="recordVisit('sales-history')" class="glass-card rounded-[2.5rem] p-10" data-id="sales-history">
+    <div class="fav-star" onclick="event.stopPropagation();toggleFav('sales-history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="icon-container">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-emerald-400">
+            <polyline points="2 12 6 12 8 6 11 18 14 9 17 14 19 12 22 12"
+                style="stroke-dasharray:60;stroke-dashoffset:60;animation:salesDraw 2.4s ease-in-out infinite alternate;">
+            </polyline>
+            <line x1="2" y1="19" x2="22" y2="19" style="opacity:0.25;"></line>
+        </svg>
+    </div>
+    <h3 class="text-2xl font-bold mb-2">SALES HISTORY</h3>
+    <p class="text-slate-400 text-sm leading-relaxed">Sales Data of Prev. FY</p>
+</a>
           </div>
   
           <!-- ON PROCESS -->
@@ -964,7 +983,7 @@
                       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
                           <div class="metric-card"><div class="metric-label">Avg response</div><div class="metric-value" id="srvMetAvg">—</div><div class="metric-unit">ms</div></div>
                           <div class="metric-card"><div class="metric-label">Uptime 24h</div><div class="metric-value" id="srvMetUp">—</div><div class="metric-unit">%</div></div>
-                          <div class="metric-card"><div class="metric-label">Pages live</div><div class="metric-value" id="srvMetPages">—</div><div class="metric-unit">/ 13</div></div>
+                          <div class="metric-card"><div class="metric-label">Pages live</div><div class="metric-value" id="srvMetPages">—</div><div class="metric-unit">/ 15</div></div>
                       </div>
                       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
                           <div class="metric-card"><div class="metric-label">Requests (24h)</div><div class="metric-value" id="srvMetReq">—</div></div>
@@ -1106,6 +1125,7 @@
       'depot-os':{label:'Depot OS',dotColor:'#38bdf8',url:'https://pristinepearl.github.io/DepotOS/'},
       'manpower':{label:'ManPower',dotColor:'#a3e635',url:'https://pristinepearl.github.io/ManPower/'},
       'prints-inv':{label:'Prints - Inv',dotColor:'#a78bfa',url:'https://pristinepearl.github.io/Prints-Inv/'},
+      'sales-history':{label:'Sales History',dotColor:'#34d399',url:'https://pristinepearl.github.io/sku/sales'},
       'sales-return':{label:'Sales Return',dotColor:'#60a5fa',url:null},
       'cheque':{label:'Cheque',dotColor:'#34d399',url:null},
       
@@ -1125,6 +1145,7 @@
       {id:'depot-os',label:'Depot OS',dotColor:'#38bdf8'},
       {id:'manpower',label:'ManPower',dotColor:'#a3e635'},
       {id:'prints-inv',label:'Prints - Inv',dotColor:'#a78bfa'},
+      {id:'sales-history',label:'Sales History',dotColor:'#34d399'},
   ];
   const allWip = [{id:'acc-mis',label:'ACC MIS'},{id:'ta-desk',label:'TA DESK'},{id:'prints-inv',label:'PRINTS - INV'}];
   
@@ -1492,6 +1513,7 @@
       {id:'depot-os',label:'Depot OS',desc:'Depot Operations System',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/DepotOS/','_blank');recordVisit('depot-os');}},
       {id:'manpower',label:'ManPower',desc:'Sales & Headoffice',dotColor:'#a3e635',action:()=>{window.open('https://pristinepearl.github.io/ManPower/','_blank');recordVisit('manpower');}},
       {id:'prints-inv',label:'Prints - Inv',desc:'Inventory & Assets Management',dotColor:'#a78bfa',action:()=>{window.open('https://pristinepearl.github.io/Prints-Inv/','_blank');recordVisit('prints-inv');}},
+      {id:'sales-history',label:'Sales History',desc:'Sales Data & History Reports',dotColor:'#34d399',action:()=>{window.open('https://pristinepearl.github.io/sku/sales','_blank');recordVisit('sales-history');}},
       {id:'server',label:'Server Monitor',desc:'Monitor all pages',dotColor:'#38bdf8',action:()=>openServerModal()},
       {id:'settings',label:'Settings',desc:'Configure portal',dotColor:'#64748b',action:()=>openSettings()},
   ];
@@ -1540,13 +1562,14 @@
       {key:'O',label:'Depot OS',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/DepotOS/','_blank');recordVisit('depot-os');}},
       {key:'P',label:'ManPower',dotColor:'#a3e635',action:()=>{window.open('https://pristinepearl.github.io/ManPower/','_blank');recordVisit('manpower');}},
       {key:'I',label:'Prints - Inv',dotColor:'#a78bfa',action:()=>{window.open('https://pristinepearl.github.io/Prints-Inv/','_blank');recordVisit('prints-inv');}},
+      {key:'L',label:'Sales History',dotColor:'#34d399',action:()=>{window.open('https://pristinepearl.github.io/sku/sales','_blank');recordVisit('sales-history');}},
       {key:'V',label:'Server Monitor',dotColor:'#38bdf8',action:()=>{openServerModal();}},
       {key:'G',label:'Toggle Grid/List',dotColor:'#64748b',action:()=>{const cur=document.querySelector('main')?.classList.contains('list-mode');setView(cur?'grid':'list');}},
       {key:',',label:'Settings',dotColor:'#64748b',action:()=>openSettings()},
   ];
   
   function buildKbdBadges(){
-      const titleMap={'SALES RETURN':'R','CHEQUE':'C','SAMPLES':'S','PEARL SKU':'K','DOCUMENTS':'D','ACC TASK':'A','STATIONERY':'T','CARTONS':'X','HR DOCS':'H','KM VERIFIER':'M','DEPOT OS':'O','MANPOWER':'P'};
+      const titleMap={'SALES RETURN':'R','CHEQUE':'C','SAMPLES':'S','PEARL SKU':'K','DOCUMENTS':'D','ACC TASK':'A','STATIONERY':'T','CARTONS':'X','HR DOCS':'H','KM VERIFIER':'M','DEPOT OS':'O','MANPOWER':'P','SALES HISTORY':'L','PRINTS - INV':'I'};
       document.querySelectorAll('.glass-card').forEach(card=>{
           const h3=card.querySelector('h3');if(!h3)return;const key=titleMap[h3.textContent.trim()];if(!key)return;
           if(card.querySelector('.kbd-badge'))return;const badge=document.createElement('span');badge.className='kbd-badge';badge.textContent=key;card.appendChild(badge);
@@ -1605,6 +1628,7 @@
       {id:'car',title:'Cartons',url:'/Cartons',color:'#fb923c'},{id:'hr',title:'HR Docs',url:'/HR-Docs',color:'#e879f9'},
       {id:'km',title:'KM Verifier',url:'/TA-KM',color:'#2dd4bf'},{id:'depot',title:'Depot OS',url:'/DepotOS',color:'#38bdf8'},
       {id:'mp',title:'ManPower',url:'/ManPower',color:'#a3e635'},{id:'prints-inv',title:'Prints - Inv',url:'/Prints-Inv',color:'#a78bfa'},
+      {id:'sales-history',title:'Sales History',url:'/sku/sales',color:'#34d399'},
   ];
   const srvChecks=[
       {id:'dns',label:'DNS Resolution',desc:'github.io resolves correctly'},
@@ -2156,6 +2180,7 @@
           {id:'hr-docs',label:'HR Docs'},{id:'km-verifier',label:'KM Verifier'},
           {id:'depot-os',label:'Depot OS'},{id:'manpower',label:'ManPower'},
           {id:'prints-inv',label:'Prints - Inv'},
+          {id:'sales-history',label:'Sales History'},
       ];
       noteableCards.forEach(({id,label})=>{
           const card=document.querySelector(`.glass-card[data-id="${id}"]`);
