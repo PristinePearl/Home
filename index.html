@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
   <head>
       <meta charset="UTF-8">
@@ -522,6 +522,25 @@
     <p class="text-slate-400 text-sm leading-relaxed">Inventory & Assets Management.</p>
 </a>
   
+  <!-- RMS -->
+<a href="https://pristinepearl.github.io/RMS/" target="_blank" onclick="recordVisit('rms')" class="glass-card rounded-[2.5rem] p-10" data-id="rms">
+    <div class="fav-star" onclick="event.stopPropagation();toggleFav('rms')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="icon-container">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-amber-400">
+            <!-- Receipt body -->
+            <path d="M4 3h16v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5-2 1.5V3z" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Animated lines -->
+            <path class="doc-line doc-line-1" d="M8 8h8" stroke-linecap="round"/>
+            <path class="doc-line doc-line-2" d="M8 12h5" stroke-linecap="round"/>
+            <!-- Rupee / check mark -->
+            <circle cx="16" cy="14" r="2.5" style="animation:srvPulse 2s ease-in-out infinite; opacity:0.8;"/>
+            <path d="M15 14l.8.8 1.4-1.6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="animation:srvPulse 2s ease-in-out infinite;"/>
+        </svg>
+    </div>
+    <h3 class="text-2xl font-bold mb-2">RMS</h3>
+    <p class="text-slate-400 text-sm leading-relaxed">Reimbursement Management System</p>
+</a>
+
   <!-- Sales History -->
 <a href="https://pristinepearl.github.io/sku/sales" target="_blank" onclick="recordVisit('sales-history')" class="glass-card rounded-[2.5rem] p-10" data-id="sales-history">
     <div class="fav-star" onclick="event.stopPropagation();toggleFav('sales-history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
@@ -1130,6 +1149,7 @@
       'ta-desk':{label:'TA Desk',dotColor:'#38bdf8',url:'https://pristinepearl.github.io/TravelDesk/'},
       'sales-return':{label:'Sales Return',dotColor:'#60a5fa',url:null},
       'cheque':{label:'Cheque',dotColor:'#34d399',url:null},
+      'rms':{label:'RMS',dotColor:'#fbbf24',url:'https://pristinepearl.github.io/RMS/'},
       
   };
   
@@ -1149,6 +1169,7 @@
       {id:'prints-inv',label:'Prints - Inv',dotColor:'#a78bfa'},
       {id:'sales-history',label:'Sales History',dotColor:'#34d399'},
       {id:'ta-desk',label:'TA Desk',dotColor:'#38bdf8'},
+      {id:'rms',label:'RMS',dotColor:'#fbbf24'},
   ];
   const allWip = [{id:'acc-mis',label:'ACC MIS'},{id:'prints-inv',label:'PRINTS - INV'}];
   
@@ -1518,6 +1539,7 @@
       {id:'prints-inv',label:'Prints - Inv',desc:'Inventory & Assets Management',dotColor:'#a78bfa',action:()=>{window.open('https://pristinepearl.github.io/Prints-Inv/','_blank');recordVisit('prints-inv');}},
       {id:'sales-history',label:'Sales History',desc:'Sales Data & History Reports',dotColor:'#34d399',action:()=>{window.open('https://pristinepearl.github.io/sku/sales','_blank');recordVisit('sales-history');}},
       {id:'ta-desk',label:'TA Desk',desc:'Travel Allowance Reports & Analysis',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/TravelDesk/','_blank');recordVisit('ta-desk');}},
+      {id:'rms',label:'RMS',desc:'Reimbursement Management System',dotColor:'#fbbf24',action:()=>{window.open('https://pristinepearl.github.io/RMS/','_blank');recordVisit('rms');}},
       {id:'server',label:'Server Monitor',desc:'Monitor all pages',dotColor:'#38bdf8',action:()=>openServerModal()},
       {id:'settings',label:'Settings',desc:'Configure portal',dotColor:'#64748b',action:()=>openSettings()},
   ];
@@ -1568,13 +1590,14 @@
       {key:'I',label:'Prints - Inv',dotColor:'#a78bfa',action:()=>{window.open('https://pristinepearl.github.io/Prints-Inv/','_blank');recordVisit('prints-inv');}},
       {key:'L',label:'Sales History',dotColor:'#34d399',action:()=>{window.open('https://pristinepearl.github.io/sku/sales','_blank');recordVisit('sales-history');}},
       {key:'W',label:'TA Desk',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/TravelDesk/','_blank');recordVisit('ta-desk');}},
+      {key:'E',label:'RMS',dotColor:'#fbbf24',action:()=>{window.open('https://pristinepearl.github.io/RMS/','_blank');recordVisit('rms');}},
       {key:'V',label:'Server Monitor',dotColor:'#38bdf8',action:()=>{openServerModal();}},
       {key:'G',label:'Toggle Grid/List',dotColor:'#64748b',action:()=>{const cur=document.querySelector('main')?.classList.contains('list-mode');setView(cur?'grid':'list');}},
       {key:',',label:'Settings',dotColor:'#64748b',action:()=>openSettings()},
   ];
   
   function buildKbdBadges(){
-      const titleMap={'SALES RETURN':'R','CHEQUE':'C','SAMPLES':'S','PEARL SKU':'K','DOCUMENTS':'D','ACC TASK':'A','STATIONERY':'T','CARTONS':'X','HR DOCS':'H','KM VERIFIER':'M','DEPOT OS':'O','MANPOWER':'P','SALES HISTORY':'L','TA DESK':'W','PRINTS - INV':'I'};
+      const titleMap={'SALES RETURN':'R','CHEQUE':'C','SAMPLES':'S','PEARL SKU':'K','DOCUMENTS':'D','ACC TASK':'A','STATIONERY':'T','CARTONS':'X','HR DOCS':'H','KM VERIFIER':'M','DEPOT OS':'O','MANPOWER':'P','SALES HISTORY':'L','TA DESK':'W','PRINTS - INV':'I','RMS':'E'};
       document.querySelectorAll('.glass-card').forEach(card=>{
           const h3=card.querySelector('h3');if(!h3)return;const key=titleMap[h3.textContent.trim()];if(!key)return;
           if(card.querySelector('.kbd-badge'))return;const badge=document.createElement('span');badge.className='kbd-badge';badge.textContent=key;card.appendChild(badge);
@@ -1635,6 +1658,7 @@
       {id:'mp',title:'ManPower',url:'/ManPower',color:'#a3e635'},{id:'prints-inv',title:'Prints - Inv',url:'/Prints-Inv',color:'#a78bfa'},
       {id:'sales-history',title:'Sales History',url:'/sku/sales',color:'#34d399'},
       {id:'ta-desk',title:'TA Desk',url:'/TravelDesk',color:'#38bdf8'},
+      {id:'rms',title:'RMS',url:'/RMS',color:'#fbbf24'},
   ];
   const srvChecks=[
       {id:'dns',label:'DNS Resolution',desc:'github.io resolves correctly'},
@@ -2188,6 +2212,7 @@
           {id:'prints-inv',label:'Prints - Inv'},
           {id:'sales-history',label:'Sales History'},
           {id:'ta-desk',label:'TA Desk'},
+          {id:'rms',label:'RMS'},
       ];
       noteableCards.forEach(({id,label})=>{
           const card=document.querySelector(`.glass-card[data-id="${id}"]`);
