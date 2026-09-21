@@ -91,7 +91,19 @@
           .view-btn{color:#475569;}
           .view-btn:hover{color:#94a3b8;background:rgba(255,255,255,0.05);}
           .active-view{color:#0ea5e9!important;background:rgba(14,165,233,0.12)!important;}
-          .cards-grid{transition:all 0.3s ease;}
+          .cards-grid{display:grid!important;grid-template-columns:repeat(3,1fr);gap:1.2rem;transition:all 0.3s ease;padding:0;}
+          
+          /* Department styling */
+          .dept-container{display:flex;flex-direction:column;gap:0.75rem;}
+          .dept-header{font-size:0.9rem;font-weight:700;color:#0ea5e9;letter-spacing:0.08em;text-transform:uppercase;padding-bottom:0.5rem;border-bottom:1px solid rgba(14,165,233,0.25);}
+          
+          /* Smaller card sizes */
+          .glass-card{padding:0.8rem!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;}
+          .icon-container{width:48px!important;height:48px!important;margin-bottom:0.5rem!important;}
+          .icon-container svg{width:20px!important;height:20px!important;}
+          .glass-card h3{font-size:0.85rem!important;margin-bottom:0.2rem!important;line-height:1.2!important;}
+          .glass-card p{font-size:0.7rem!important;line-height:1.2!important;opacity:0.8!important;}
+          
           .list-mode .glass-card,.list-mode .wip-card{display:flex!important;flex-direction:row!important;align-items:center!important;padding:1.1rem 1.6rem!important;border-radius:1.25rem!important;gap:1.2rem;}
           .list-mode .glass-card:hover{transform:translateX(4px) translateY(0)!important;}
           .list-mode .icon-container{width:48px!important;height:48px!important;min-width:48px!important;border-radius:14px!important;margin-bottom:0!important;}
@@ -105,6 +117,9 @@
           .list-mode .cards-grid{display:flex!important;flex-direction:column!important;gap:0.6rem!important;}
           @keyframes listIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
           .list-mode .glass-card,.list-mode .wip-card{animation:listIn 0.22s ease forwards;}
+          
+          @media (max-width:1200px){.cards-grid{grid-template-columns:repeat(2,1fr);}}
+          @media (max-width:768px){.cards-grid{grid-template-columns:1fr;}}
   
           /* Keyboard badges */
           .kbd-badge{position:absolute;top:12px;right:14px;background:rgba(15,23,42,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:2px 7px;font-size:11px;font-weight:700;color:#475569;letter-spacing:0.04em;font-family:'Space Grotesk',sans-serif;transition:all 0.2s ease;pointer-events:none;opacity:0;}
@@ -372,8 +387,8 @@
                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-800/60 border border-white/5 text-slate-500 hover:text-blue-400 hover:border-blue-500/30 transition-all duration-200">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
               </button>
-                         <!-- View toggle -->
-              <div class="flex items-center gap-1 bg-slate-800/60 p-1 rounded-2xl border border-white/5">
+                         <!-- View toggle - HIDDEN, LIST VIEW ONLY -->
+              <div class="flex items-center gap-1 bg-slate-800/60 p-1 rounded-2xl border border-white/5" style="display:none!important;">
                   <button id="btnGrid" onclick="setView('grid')" title="Grid View" class="view-btn active-view w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-xl transition-all duration-200">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                   </button>
@@ -415,146 +430,227 @@
   
       <!-- MAIN GRID -->
       <main class="max-w-6xl mx-auto" id="mainGrid">
-          <div class="cards-grid grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
-  
-              <!-- Sales Return -->
-              <div onclick="openModal('salesReturn'); recordVisit('sales-return');" class="glass-card rounded-[2.5rem] p-10 cursor-pointer" data-id="sales-return">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('sales-return')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-blue-400"><path class="sync-path" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">SALES RETURN</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Entry & Reports.</p>
-              </div>
-  
-              <!-- Cheque -->
-              <div onclick="openModal('chequeDeposit'); recordVisit('cheque');" class="glass-card rounded-[2.5rem] p-10 cursor-pointer" data-id="cheque">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('cheque')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><div class="scan-bar"></div><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-emerald-400"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h4M7 14h8"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">CHEQUE</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Entry & Reports.</p>
-              </div>
-  
-              <!-- Samples -->
-              <a href="https://pristinepearl.github.io/samples" target="_blank" onclick="recordVisit('samples')" class="glass-card rounded-[2.5rem] p-10" data-id="samples">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('samples')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-purple-400"><path class="box-lid" d="M12 2L3 7l9 5 9-5-9-5z"/><path d="M3 17l9 5 9-5M3 7v10M21 7v10M12 12v10"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">SAMPLES</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Samples Requests & Distribution.</p>
-              </a>
-  
-              <!-- SKU Planning -->
-              <a href="https://pristinepearl.github.io/sku" target="_blank" onclick="recordVisit('sku')" class="glass-card rounded-[2.5rem] p-10" data-id="sku">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('sku')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><rect class="bar bar-1" x="5" y="14" width="3" height="5" rx="1"/><rect class="bar bar-2" x="11" y="10" width="3" height="9" rx="1"/><rect class="bar bar-3" x="17" y="6" width="3" height="13" rx="1"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">PEARL SKU</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Pearl AI Powered - Stock Planning Module</p>
-                  <span class="card-badge-beta">Beta</span>
-              </a>
-  
-              <!-- Documents -->
-              <a href="https://pristinepearl.github.io/docs" target="_blank" onclick="recordVisit('docs')" class="glass-card rounded-[2.5rem] p-10" data-id="docs">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('docs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-rose-400"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path class="doc-line doc-line-1" d="M8 13h8"/><path class="doc-line doc-line-2" d="M8 17h5"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">DOCUMENTS</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Repository of Documents</p>
-              </a>
-  
-              <!-- ACC Task -->
-              <a href="https://pristinepearl.github.io/ACC-Task" target="_blank" onclick="recordVisit('acc-task')" class="glass-card rounded-[2.5rem] p-10" data-id="acc-task">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('acc-task')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-indigo-400"><path class="doc-line doc-line-1" d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">ACC TASK</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Accounts Task Management.</p>
-              </a>
-  
-              <!-- Stationery -->
-              <a href="https://pristinepearl.github.io/Stationery" target="_blank" onclick="recordVisit('stationery')" class="glass-card rounded-[2.5rem] p-10" data-id="stationery">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('stationery')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-cyan-400 pen-icon"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">STATIONERY</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Stationery Inventory & Issuance</p>
-              </a>
-  
-              <!-- Cartons -->
-              <a href="https://pristinepearl.github.io/Cartons" target="_blank" onclick="recordVisit('cartons')" class="glass-card rounded-[2.5rem] p-10" data-id="cartons">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('cartons')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-orange-400"><g class="carton-body"><rect x="4" y="9" width="11" height="10" rx="1"/><path d="M4 9l2.5-4h6L15 9"/><path d="M7.5 5.5L9.5 9M12.5 5.5L10.5 9"/></g><path class="carton-flow" d="M17 13h4" stroke-linecap="round"/><path d="M19 11l2 2-2 2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">CARTONS</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Inventory Flow.</p>
-              </a>
-  
-              <!-- HR Docs -->
-              <a href="https://pristinepearl.github.io/HR-Docs/" target="_blank" onclick="recordVisit('hr-docs')" class="glass-card rounded-[2.5rem] p-10" data-id="hr-docs">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('hr-docs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-fuchsia-400"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path class="doc-line doc-line-1" d="M14 11h7"/><path class="doc-line doc-line-2" d="M14 15h5"/><path d="M21 7h-7"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">HR DOCS</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Repository of HR Documents.</p>
-              </a>
-  
-              <!-- KM Verifier -->
-              <a href="https://pristinepearl.github.io/TA-KM/" target="_blank" onclick="recordVisit('km-verifier')" class="glass-card rounded-[2.5rem] p-10" data-id="km-verifier">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('km-verifier')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-teal-400"><g class="km-pin"><circle cx="9" cy="7" r="2.5"/><path d="M9 9.5V14" stroke-linecap="round"/></g><path class="km-route" d="M9 14 Q13 14 15 11" stroke-linecap="round" fill="none"/><circle cx="16" cy="9" r="1.5"/><rect x="3" y="17" width="18" height="3" rx="1.5" opacity="0.3"/><rect x="3" y="17" width="11" height="3" rx="1.5" opacity="0.7"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">KM VERIFIER</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">TA - Distance & Category Verification.</p>
-              </a>
-  
-              <!-- Depot OS -->
-              <a href="https://pristinepearl.github.io/DepotOS/" target="_blank" onclick="recordVisit('depot-os')" class="glass-card rounded-[2.5rem] p-10" data-id="depot-os">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('depot-os')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-sky-400"><path class="depot-roof" d="M3 10l9-6 9 6"/><path d="M4 10v10h16V10"/><g class="depot-box"><rect x="7" y="14" width="3" height="3"/><rect x="11" y="14" width="3" height="3"/><rect x="15" y="14" width="3" height="3"/></g><path class="depot-flow" d="M5 19h14" stroke-linecap="round"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">DEPOT OS</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Depot Operations System.</p>
-              </a>
-  
-              <!-- ManPower -->
-              <a href="https://pristinepearl.github.io/ManPower/" target="_blank" onclick="recordVisit('manpower')" class="glass-card rounded-[2.5rem] p-10" data-id="manpower">
-                  <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('manpower')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                  <div class="icon-container"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-lime-400"><g class="manpower-person"><circle cx="6" cy="6" r="2"/><path d="M4 11c0-1.1.9-2 2-2s2 .9 2 2v4H4v-4z" stroke-linecap="round" stroke-linejoin="round"/></g><g class="manpower-person-2"><circle cx="12" cy="5" r="2.2"/><path d="M9.5 10.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V15H9.5v-4.5z" stroke-linecap="round" stroke-linejoin="round"/></g><g class="manpower-person-3"><circle cx="18" cy="6" r="2"/><path d="M16 11c0-1.1.9-2 2-2s2 .9 2 2v4h-4v-4z" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M3 19h18" stroke-linecap="round" opacity="0.4"/></svg></div>
-                  <h3 class="text-2xl font-bold mb-2">MANPOWER</h3>
-                  <p class="text-slate-400 text-sm leading-relaxed">Sales & Headoffice.</p>
-              </a>
-              
-               <!-- Prints-Inv -->
-              <a href="https://pristinepearl.github.io/Prints-Inv/" target="_blank" onclick="recordVisit('prints-inv')" class="glass-card rounded-[2.5rem] p-10" data-id="prints-inv">
-    <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('prints-inv')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-    <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-violet-400"><path d="M6 9V2h12v7"/><rect x="3" y="9" width="18" height="10" rx="1"/><path class="doc-line doc-line-1" d="M6 18v4h12v-4"/><circle cx="18" cy="14" r="1" style="animation:srvPulse 1.5s ease-in-out infinite;"/></svg></div>
-    <h3 class="text-2xl font-bold mb-2">PRINTS - INV</h3>
-    <p class="text-slate-400 text-sm leading-relaxed">Inventory & Assets Management.</p>
-</a>
-  
-  <!-- RMS -->
-<a href="https://pristinepearl.github.io/RMS/" target="_blank" onclick="recordVisit('rms')" class="glass-card rounded-[2.5rem] p-10" data-id="rms">
-    <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('rms')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-    <div class="icon-container">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-amber-400">
-            <!-- Receipt body -->
-            <path d="M4 3h16v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5-2 1.5V3z" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Animated lines -->
-            <path class="doc-line doc-line-1" d="M8 8h8" stroke-linecap="round"/>
-            <path class="doc-line doc-line-2" d="M8 12h5" stroke-linecap="round"/>
-            <!-- Rupee / check mark -->
-            <circle cx="16" cy="14" r="2.5" style="animation:srvPulse 2s ease-in-out infinite; opacity:0.8;"/>
-            <path d="M15 14l.8.8 1.4-1.6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="animation:srvPulse 2s ease-in-out infinite;"/>
-        </svg>
-    </div>
-    <h3 class="text-2xl font-bold mb-2">RMS</h3>
-    <p class="text-slate-400 text-sm leading-relaxed">Reimbursement Management System</p>
-</a>
 
-  <!-- Sales History -->
-<a href="https://pristinepearl.github.io/sku/sales" target="_blank" onclick="recordVisit('sales-history')" class="glass-card rounded-[2.5rem] p-10" data-id="sales-history">
-    <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('sales-history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-    <div class="icon-container">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-emerald-400">
-            <polyline points="2 12 6 12 8 6 11 18 14 9 17 14 19 12 22 12"
-                style="stroke-dasharray:60;stroke-dashoffset:60;animation:salesDraw 2.4s ease-in-out infinite alternate;">
-            </polyline>
-            <line x1="2" y1="19" x2="22" y2="19" style="opacity:0.25;"></line>
-        </svg>
-    </div>
-    <h3 class="text-2xl font-bold mb-2">SALES HISTORY</h3>
-    <p class="text-slate-400 text-sm leading-relaxed">Sales Data of Prev. FY</p>
-</a>
+          <style>
+              .dept-section { margin-bottom: 2.5rem; }
+              .dept-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+              .dept-label { font-family: 'Space Grotesk', sans-serif; font-size: 9px; font-weight: 800; letter-spacing: 0.35em; text-transform: uppercase; white-space: nowrap; padding: 4px 12px; border-radius: 20px; border: 1px solid; flex-shrink: 0; }
+              .dept-line { flex: 1; height: 1px; }
+              .dept-finance .dept-label { color:#34d399; border-color:rgba(52,211,153,0.25); background:rgba(52,211,153,0.07); }
+              .dept-finance .dept-line  { background:linear-gradient(90deg,rgba(52,211,153,0.25),transparent); }
+              .dept-purchase .dept-label { color:#fbbf24; border-color:rgba(251,191,36,0.25); background:rgba(251,191,36,0.07); }
+              .dept-purchase .dept-line  { background:linear-gradient(90deg,rgba(251,191,36,0.25),transparent); }
+              .dept-ta .dept-label { color:#2dd4bf; border-color:rgba(45,212,191,0.25); background:rgba(45,212,191,0.07); }
+              .dept-ta .dept-line  { background:linear-gradient(90deg,rgba(45,212,191,0.25),transparent); }
+              .dept-samples .dept-label { color:#a78bfa; border-color:rgba(167,139,250,0.25); background:rgba(167,139,250,0.07); }
+              .dept-samples .dept-line  { background:linear-gradient(90deg,rgba(167,139,250,0.25),transparent); }
+              .dept-depot .dept-label { color:#38bdf8; border-color:rgba(56,189,248,0.25); background:rgba(56,189,248,0.07); }
+              .dept-depot .dept-line  { background:linear-gradient(90deg,rgba(56,189,248,0.25),transparent); }
+              .dept-general .dept-label { color:#94a3b8; border-color:rgba(148,163,184,0.25); background:rgba(148,163,184,0.07); }
+              .dept-general .dept-line  { background:linear-gradient(90deg,rgba(148,163,184,0.25),transparent); }
+              .dept-hr .dept-label { color:#e879f9; border-color:rgba(232,121,249,0.25); background:rgba(232,121,249,0.07); }
+              .dept-hr .dept-line  { background:linear-gradient(90deg,rgba(232,121,249,0.25),transparent); }
+              .dept-prints .dept-label { color:#818cf8; border-color:rgba(129,140,248,0.25); background:rgba(129,140,248,0.07); }
+              .dept-prints .dept-line  { background:linear-gradient(90deg,rgba(129,140,248,0.25),transparent); }
+              
+              /* 3-Column Layout */
+              .dept-columns-wrapper { display:grid; grid-template-columns:repeat(3,1fr); gap:2.5rem; }
+              .dept-column { display:flex; flex-direction:column; gap:2.5rem; }
+              .dept-columns-wrapper .dept-section { margin-bottom:0; }
+              .dept-columns-wrapper .cards-grid { grid-template-columns:1fr!important; gap:0.8rem!important; }
+              .dept-columns-wrapper .glass-card { padding:0.8rem!important; }
+              .dept-columns-wrapper .icon-container { width:44px!important; height:44px!important; margin-bottom:0.4rem!important; }
+              .dept-columns-wrapper .icon-container svg { width:18px!important; height:18px!important; }
+              .dept-columns-wrapper .glass-card h3 { font-size:0.8rem!important; }
+              .dept-columns-wrapper .glass-card p { font-size:0.65rem!important; }
+              
+              @media(max-width:1400px) { .dept-columns-wrapper { grid-template-columns:repeat(2,1fr); } }
+              @media(max-width:768px) { .dept-columns-wrapper { grid-template-columns:1fr; } }
+          </style>
+
+          <!-- 3-COLUMN DEPARTMENT LAYOUT -->
+          <div class="dept-columns-wrapper">
+              <!-- COLUMN 1 -->
+              <div class="dept-column">
+              
+          <!-- 1. FINANCE DEPT -->
+          <div class="dept-section dept-finance">
+              <div class="dept-header"><span class="dept-label">Finance Dept</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <div onclick="openModal('chequeDeposit'); recordVisit('cheque');" class="glass-card rounded-[2.5rem] p-8 cursor-pointer" data-id="cheque">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('cheque')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><div class="scan-bar"></div><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-emerald-400"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h4M7 14h8"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">CHEQUE</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Entry & Reports.</p>
+                  </div>
+
+                  <a href="https://pristinepearl.github.io/ACC-Task" target="_blank" onclick="recordVisit('acc-task')" class="glass-card rounded-[2.5rem] p-8" data-id="acc-task">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('acc-task')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-indigo-400"><path class="doc-line doc-line-1" d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">ACC TASK</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Accounts Task Management.</p>
+                  </a>
+
+                  <a href="https://pristinepearl.github.io/sku/sales" target="_blank" onclick="recordVisit('sales-history')" class="glass-card rounded-[2.5rem] p-8" data-id="sales-history">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('sales-history')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-emerald-400"><polyline points="2 12 6 12 8 6 11 18 14 9 17 14 19 12 22 12" style="stroke-dasharray:60;stroke-dashoffset:60;animation:salesDraw 2.4s ease-in-out infinite alternate;"></polyline><line x1="2" y1="19" x2="22" y2="19" style="opacity:0.25;"></line></svg></div>
+                      <h3 class="text-xl font-bold mb-1">SALES HISTORY</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Sales Data of Prev. FY</p>
+                  </a>
+
+                  <a href="https://pristinepearl.github.io/RMS/" target="_blank" onclick="recordVisit('rms')" class="glass-card rounded-[2.5rem] p-8" data-id="rms">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('rms')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-amber-400"><path d="M4 3h16v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5-2 1.5V3z" stroke-linecap="round" stroke-linejoin="round"/><path class="doc-line doc-line-1" d="M8 8h8" stroke-linecap="round"/><path class="doc-line doc-line-2" d="M8 12h5" stroke-linecap="round"/><circle cx="16" cy="14" r="2.5" style="animation:srvPulse 2s ease-in-out infinite;opacity:0.8;"/><path d="M15 14l.8.8 1.4-1.6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="animation:srvPulse 2s ease-in-out infinite;"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">RMS</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Reimbursement Management System</p>
+                  </a>
+
+              </div>
+          </div>
+
+          <!-- 2. PURCHASE DEPT -->
+          <div class="dept-section dept-purchase">
+              <div class="dept-header"><span class="dept-label">Purchase Dept</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <a href="https://pristinepearl.github.io/sku" target="_blank" onclick="recordVisit('sku')" class="glass-card rounded-[2.5rem] p-8" data-id="sku">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('sku')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><rect class="bar bar-1" x="5" y="14" width="3" height="5" rx="1"/><rect class="bar bar-2" x="11" y="10" width="3" height="9" rx="1"/><rect class="bar bar-3" x="17" y="6" width="3" height="13" rx="1"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">PEARL SKU</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Pearl AI Powered - Stock Planning Module</p>
+                      <span class="card-badge-beta">Beta</span>
+                  </a>
+
+              </div>
+          </div>
+
+          <!-- 3. TA DEPT -->
+          <div class="dept-section dept-ta">
+              <div class="dept-header"><span class="dept-label">TA Dept</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <a href="https://pristinepearl.github.io/TA-KM/" target="_blank" onclick="recordVisit('km-verifier')" class="glass-card rounded-[2.5rem] p-8" data-id="km-verifier">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('km-verifier')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-teal-400"><g class="km-pin"><circle cx="9" cy="7" r="2.5"/><path d="M9 9.5V14" stroke-linecap="round"/></g><path class="km-route" d="M9 14 Q13 14 15 11" stroke-linecap="round" fill="none"/><circle cx="16" cy="9" r="1.5"/><rect x="3" y="17" width="18" height="3" rx="1.5" opacity="0.3"/><rect x="3" y="17" width="11" height="3" rx="1.5" opacity="0.7"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">KM VERIFIER</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">TA - Distance & Category Verification.</p>
+                  </a>
+
+              </div>
+          </div>
+              </div>
+              <!-- COLUMN 2 -->
+              <div class="dept-column">
+
+          <!-- 4. SAMPLES & DISTRIBUTION DEPT -->
+          <div class="dept-section dept-samples">
+              <div class="dept-header"><span class="dept-label">Samples &amp; Distribution Dept</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+
+                  <a href="https://pristinepearl.github.io/samples" target="_blank" onclick="recordVisit('samples')" class="glass-card rounded-[2.5rem] p-8" data-id="samples">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('samples')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-purple-400"><path class="box-lid" d="M12 2L3 7l9 5 9-5-9-5z"/><path d="M3 17l9 5 9-5M3 7v10M21 7v10M12 12v10"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">SAMPLES</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Samples Requests & Distribution.</p>
+                  </a>
+
+                  <a href="https://pristinepearl.github.io/Stationery" target="_blank" onclick="recordVisit('stationery')" class="glass-card rounded-[2.5rem] p-8" data-id="stationery">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('stationery')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-cyan-400 pen-icon"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">STATIONERY</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Stationery Inventory & Issuance</p>
+                  </a>
+
+                  <a href="https://pristinepearl.github.io/Cartons" target="_blank" onclick="recordVisit('cartons')" class="glass-card rounded-[2.5rem] p-8" data-id="cartons">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('cartons')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-orange-400"><g class="carton-body"><rect x="4" y="9" width="11" height="10" rx="1"/><path d="M4 9l2.5-4h6L15 9"/><path d="M7.5 5.5L9.5 9M12.5 5.5L10.5 9"/></g><path class="carton-flow" d="M17 13h4" stroke-linecap="round"/><path d="M19 11l2 2-2 2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">CARTONS</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Inventory Flow.</p>
+                  </a>
+
+              </div>
+          </div>
+              </div>
+              <!-- COLUMN 3 -->
+              <div class="dept-column">
+
+          <!-- 5. DEPOT DEPT -->
+          <div class="dept-section dept-depot">
+              <div class="dept-header"><span class="dept-label">Depot Dept</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <div onclick="openModal('salesReturn'); recordVisit('sales-return');" class="glass-card rounded-[2.5rem] p-8 cursor-pointer" data-id="sales-return">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('sales-return')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-blue-400"><path class="sync-path" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">SALES RETURN</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Entry & Reports.</p>
+                  </div>
+
+                  <a href="https://pristinepearl.github.io/DepotOS/" target="_blank" onclick="recordVisit('depot-os')" class="glass-card rounded-[2.5rem] p-8" data-id="depot-os">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('depot-os')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-sky-400"><path class="depot-roof" d="M3 10l9-6 9 6"/><path d="M4 10v10h16V10"/><g class="depot-box"><rect x="7" y="14" width="3" height="3"/><rect x="11" y="14" width="3" height="3"/><rect x="15" y="14" width="3" height="3"/></g><path class="depot-flow" d="M5 19h14" stroke-linecap="round"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">DEPOT OS</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Depot Operations System.</p>
+                  </a>
+
+              </div>
+          </div>
+
+          <!-- 6. GENERAL -->
+          <div class="dept-section dept-general">
+              <div class="dept-header"><span class="dept-label">General</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <a href="https://pristinepearl.github.io/ManPower/" target="_blank" onclick="recordVisit('manpower')" class="glass-card rounded-[2.5rem] p-8" data-id="manpower">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('manpower')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-lime-400"><g class="manpower-person"><circle cx="6" cy="6" r="2"/><path d="M4 11c0-1.1.9-2 2-2s2 .9 2 2v4H4v-4z" stroke-linecap="round" stroke-linejoin="round"/></g><g class="manpower-person-2"><circle cx="12" cy="5" r="2.2"/><path d="M9.5 10.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V15H9.5v-4.5z" stroke-linecap="round" stroke-linejoin="round"/></g><g class="manpower-person-3"><circle cx="18" cy="6" r="2"/><path d="M16 11c0-1.1.9-2 2-2s2 .9 2 2v4h-4v-4z" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M3 19h18" stroke-linecap="round" opacity="0.4"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">MANPOWER</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Sales & Headoffice.</p>
+                  </a>
+
+                  <a href="https://pristinepearl.github.io/docs" target="_blank" onclick="recordVisit('docs')" class="glass-card rounded-[2.5rem] p-8" data-id="docs">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('docs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-rose-400"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path class="doc-line doc-line-1" d="M8 13h8"/><path class="doc-line doc-line-2" d="M8 17h5"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">DOCUMENTS</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Repository of Documents</p>
+                  </a>
+
+              </div>
+          </div>
+
+          <!-- 7. HR DEPT -->
+          <div class="dept-section dept-hr">
+              <div class="dept-header"><span class="dept-label">HR Dept</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <a href="https://pristinepearl.github.io/HR-Docs/" target="_blank" onclick="recordVisit('hr-docs')" class="glass-card rounded-[2.5rem] p-8" data-id="hr-docs">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('hr-docs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-fuchsia-400"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path class="doc-line doc-line-1" d="M14 11h7"/><path class="doc-line doc-line-2" d="M14 15h5"/><path d="M21 7h-7"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">HR DOCS</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Repository of HR Documents.</p>
+                  </a>
+
+              </div>
+          </div>
+
+          <!-- 8. PRINTS -->
+          <div class="dept-section dept-prints">
+              <div class="dept-header"><span class="dept-label">Prints</span><div class="dept-line"></div></div>
+              <div class="cards-grid grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+                  <a href="https://pristinepearl.github.io/Prints-Inv/" target="_blank" onclick="recordVisit('prints-inv')" class="glass-card rounded-[2.5rem] p-8" data-id="prints-inv">
+                      <div class="fav-star" onclick="event.stopPropagation();event.preventDefault();toggleFav('prints-inv')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-500"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                      <div class="icon-container"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-violet-400"><path d="M6 9V2h12v7"/><rect x="3" y="9" width="18" height="10" rx="1"/><path class="doc-line doc-line-1" d="M6 18v4h12v-4"/><circle cx="18" cy="14" r="1" style="animation:srvPulse 1.5s ease-in-out infinite;"/></svg></div>
+                      <h3 class="text-xl font-bold mb-1">PRINTS - INV</h3>
+                      <p class="text-slate-400 text-xs leading-relaxed">Inventory & Assets Management.</p>
+                  </a>
+
+              </div>
+          </div>
+
+          </div>
+              </div>
           </div>
   
           <!-- ON PROCESS -->
@@ -1295,6 +1391,10 @@
       if(cfg.font)applyFont(cfg.font);
       if(cfg.fontSize)applyFontSize(cfg.fontSize);
       if(cfg.orbIntensity!==undefined)applyOrbIntensity(cfg.orbIntensity);
+      
+      // Default to list view
+      const main=document.getElementById('mainGrid');
+      if(main)main.classList.add('list-mode');
   })();
   
   // ═══════════════════════════════════════════
@@ -1592,7 +1692,6 @@
       {key:'W',label:'TA Desk',dotColor:'#38bdf8',action:()=>{window.open('https://pristinepearl.github.io/TravelDesk/','_blank');recordVisit('ta-desk');}},
       {key:'E',label:'RMS',dotColor:'#fbbf24',action:()=>{window.open('https://pristinepearl.github.io/RMS/','_blank');recordVisit('rms');}},
       {key:'V',label:'Server Monitor',dotColor:'#38bdf8',action:()=>{openServerModal();}},
-      {key:'G',label:'Toggle Grid/List',dotColor:'#64748b',action:()=>{const cur=document.querySelector('main')?.classList.contains('list-mode');setView(cur?'grid':'list');}},
       {key:',',label:'Settings',dotColor:'#64748b',action:()=>openSettings()},
   ];
   
