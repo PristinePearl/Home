@@ -405,7 +405,7 @@ body.loading{overflow:hidden}
     <div class="brand"><img src="https://pristinepearl.github.io/Home/alt-logo.png" alt="" onerror="this.style.display='none'"><div><b>PRISTINE <span>AUTOMATION SUPPORT</span></b><small>ONE STOP PORTAL TO ACCESS ALL TOOLS &amp; REPORTS</small></div></div>
     <div class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Search tool or person…" autocomplete="off" aria-label="Search tools or people"><kbd>⌘K</kbd>
+      <input id="q" type="search" name="portal-tool-filter" placeholder="Search tool or person…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" readonly data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" aria-label="Search tools or people"><kbd>⌘K</kbd>
     </div>
     <div class="meta" id="meta"></div>
   </div>
@@ -433,7 +433,7 @@ body.loading{overflow:hidden}
 <dialog id="pdlg"><div class="pv"><svg viewBox="0 0 220 150" aria-hidden="true"><rect x="8" y="8" width="204" height="134" rx="14"/><path d="M8 32h204"/><circle cx="22" cy="20" r="2.5"/><circle cx="32" cy="20" r="2.5"/><circle cx="42" cy="20" r="2.5"/><path class="scan ac" d="M14 36h192" stroke-dasharray="3 4" opacity=".6"/><path class="sk" d="M28 52h56M28 63h34"/><g class="ac"><path class="pb" d="M40 122V96" stroke-width="10"/><path class="pb" style="animation-delay:.25s" d="M62 122V80" stroke-width="10"/><path class="pb" style="animation-delay:.5s" d="M84 122V90" stroke-width="10"/><path class="ln" d="M112 118c14-4 18-20 32-22s20 10 34 3 10-15 14-20"/></g><g class="spin"><circle cx="190" cy="52" r="9" stroke-dasharray="3 3.2"/><circle cx="190" cy="52" r="3.5"/></g></svg></div><h2 id="pt"></h2><p id="ps"></p><div class="bs"><i></i>This module is currently being built</div><button class="close" id="pc">Dismiss</button></dialog>
 <dialog id="pwdlg">
   <h2>Restricted</h2><p>Enter the password to run the server &amp; connectivity test.</p>
-  <div class="pw"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><input id="pwin" type="password" placeholder="Password" autocomplete="off" aria-label="Password"></div>
+  <div class="pw"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><input id="pwin" type="password" name="diagnostics-gate" placeholder="Password" autocomplete="new-password" data-lpignore="true" data-1p-ignore data-bwignore aria-label="Password"></div>
   <div class="pwerr" id="pwerr" hidden>Incorrect password. Try again.</div>
   <button class="pwgo" id="pwgo">Unlock</button><button class="close" id="pwx">Cancel</button>
 </dialog>
@@ -560,6 +560,9 @@ function buildChips(){$("#chips").innerHTML="";
   [["all","All",T.length,"var(--ink)"],...Object.entries(D).map(([k,v])=>[k,v[0],T.filter(t=>t.d===k).length,v[1]])].forEach(([k,n,c,col])=>{
     const b=document.createElement("button");b.className="chip";b.dataset.k=k;b.style.setProperty("--c",col);b.innerHTML=`<i></i>${n}<em>${c}</em>`;b.onclick=()=>{dept=k;render()};$("#chips").appendChild(b)})}
 $("#meta").innerHTML=`<button class="gear" id="gear" aria-label="Settings" title="Settings (,)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></button><span class="adm">SuperAdmin<i></i></span>`;
+$("#q").addEventListener("focus",e=>e.target.removeAttribute("readonly"));
+$("#q").addEventListener("blur",e=>{if(!e.target.value)e.target.setAttribute("readonly","")});
+[0,300,900,2000,4000].forEach(t=>setTimeout(()=>{const i=$("#q");if(document.activeElement!==i&&i.value!==q){i.value=q}},t));
 $("#q").oninput=e=>{q=e.target.value;render()};
 $("#q").onkeydown=e=>{if(e.key==="Enter"){const a=$("#boards .card:not(.wip)");if(a)a.click()}if(e.key==="Escape"){e.target.value="";q="";render();e.target.blur()}};
 addEventListener("keydown",e=>{const ty=/INPUT|TEXTAREA/.test(document.activeElement.tagName);if((e.key==="k"&&(e.metaKey||e.ctrlKey))||(e.key==="/"&&!ty)){e.preventDefault();$("#q").focus();$("#q").select()}});
