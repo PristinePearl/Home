@@ -40,7 +40,7 @@ main{max-width:1400px;margin:0 auto;padding:20px 24px 64px}
 .lbl::after{content:"";flex:1;height:1px;background:var(--line)}
 .lbl button{order:2;background:none;border:0;color:var(--mute);cursor:pointer;min-height:36px;text-decoration:underline;font:inherit}
 .rec{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.rec a{display:inline-flex;align-items:center;min-height:36px;padding:0 13px;border-radius:99px;background:var(--p);border:1px solid var(--line);border-left:3px solid var(--c);text-decoration:none;color:inherit;font-weight:600;font-size:12.5px;cursor:pointer}
+.rec div{display:inline-flex;align-items:center;min-height:36px;padding:0 13px;border-radius:99px;background:var(--p);border:1px solid var(--line);border-left:3px solid var(--c);text-decoration:none;color:inherit;font-weight:600;font-size:12.5px;cursor:pointer}
 .boards{display:grid;gap:8px}
 .board{display:grid;grid-template-columns:190px 1fr;gap:20px;padding:22px 0;border-top:1px solid var(--line)}
 .bh{position:sticky;top:132px;align-self:start}
@@ -101,7 +101,7 @@ dialog p{color:var(--mute);margin:4px 0 14px;font-size:13px}
 .star{right:30px;top:6px;width:32px;height:32px}
 .arr{position:absolute;right:13px;top:13px;color:var(--mute);font-size:14px;z-index:1;transition:.2s}
 .card:hover .arr{color:var(--c);transform:translate(2px,-2px)}
-.rec a{gap:0}.rec a.fv{border-color:rgba(255,182,72,.45);border-left-width:1px}.fv b{color:var(--u);margin-right:7px;font-weight:400}
+.rec div{gap:0}.rec div.fv{border-color:rgba(255,182,72,.45);border-left-width:1px}.fv b{color:var(--u);margin-right:7px;font-weight:400}
 .brand b{font-size:15px}.brand b span{color:#3b82f6}
 .meta{margin-left:auto;display:flex}
 .adm{display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 16px;border-radius:99px;background:var(--p);border:1px solid var(--line);font:500 12px var(--m);color:#60a5fa}
@@ -458,7 +458,7 @@ body.loading{overflow:hidden}
 
 <script>
 const B="https://pristinepearl.github.io/";
-const D={fin:["Finance","#b6f24a"],pur:["Purchase","#ffb648"],ta:["TA","#2dd4bf"],sam:["Samples & Distribution","#a78bfa"],dep:["Depot","#62c9ff"],gen:["General","#8b9cff"],hr:["HR","#f472b6"],prn:["Prints","#fb7185"],emr:["Emerald","#34d399"]};
+const D={fin:["Finance","#b6f24a"],pur:["Purchase","#ffb648"],ta:["TA","#2dd4bf"],sam:["Samples & Distribution","#a78bfa"],dep:["Depot","#62c9ff"],gen:["General","#8b9cff"],hr:["HR","#f472b6"],prn:["Prints","#fb7185"],emr:["Emerald","#34d399"],pdk:["Pearl Desk","#f59e0b"]};
 const T=[
 {id:"cheque",n:"Cheque",d:"fin",t:"Entry & reports",pick:[["Main",B+"chq"],["Palepu",B+"chq-palepu"],["Pristine BLR",B+"chq-blr"]],e:["Surya","Aaqil","Yasin"],v:["Siva","Amjath","Ansar"]},
 {id:"acc",n:"Acc Task",d:"fin",t:"Accounts task management",u:B+"ACC-Task",x:["Accounts Department"]},
@@ -466,8 +466,10 @@ const T=[
 {id:"rms",n:"RMS",d:"fin",t:"Reimbursement management system",u:B+"RMS/",e:["Aaqil","Geetha","Sandhiya","Mohanapriya"]},
 {id:"sku",n:"Pearl SKU",d:"pur",t:"AI-powered stock planning",u:B+"sku",e:["Mohanapriya"],v:["Safal"]},
 {id:"desk",n:"TA Desk",d:"ta",low:1,t:"Travel allowance reports & analysis",u:B+"TravelDesk/",e:["TA Dept"]},
+{id:"pdesk",n:"Pearl Desk",d:"pdk",t:"Performance Manager",pick:[["Finance",B+"PearlDesk-ACC"],["HR",B+"PearlDesk-HR"]]},
 {id:"km",n:"KM Verifier",d:"ta",t:"Distance & category verification",u:B+"TA-KM/",x:["TA Dept"]},
 {id:"vgen",n:"Voucher Generator",d:"ta",t:"JV & PV generator for Travel expense",u:B+"Vouchers/",x:["TA Dept"]},
+{id:"pdftool",n:"PDF Tool",d:"ta",t:"PDF utilities",u:B+"PDFtool",x:["TA Dept"]},
 {id:"samples",n:"Samples",d:"sam",t:"Requests & distribution",u:B+"samples",e:["Akila"]},
 {id:"stat",n:"Stationery",d:"sam",t:"Inventory & issuance",u:B+"Stationery",e:["Akila"]},
 {id:"carton",n:"Cartons",d:"sam",t:"Carton inventory flow",u:B+"Cartons",e:["Akila"]},
@@ -489,7 +491,7 @@ const by=id=>T.find(t=>t.id===id);
 const star='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';
 const hl=n=>{const s=q.trim();if(!s)return n;const i=n.toLowerCase().indexOf(s.toLowerCase());return i<0?n:n.slice(0,i)+"<mark>"+n.slice(i,i+s.length)+"</mark>"+n.slice(i+s.length)};
 const row=(c,l,a)=>a&&a.length?`<div class="col ${c}"><label>${l}</label><div class="nm">${a.map(n=>`<span>${hl(n)}</span>`).join("")}</div></div>`:"";
-const IC={"ostrack": "<rect x=\"5\" y=\"5\" width=\"22\" height=\"22\" rx=\"4\"/><path class=\"a-p\" d=\"M10 13l2 2 3-3M10 21l2 2 3-3\"/><path d=\"M19 14h4M19 22h4\"/>", "cheque": "<rect x=\"3\" y=\"8\" width=\"26\" height=\"16\" rx=\"3\"/><path d=\"M8 14h9M8 18h5M22 17l2 2 3-4\"/><path class=\"a-x\" d=\"M5 10v12\" stroke-dasharray=\"2 2\"/>", "acc": "<rect x=\"6\" y=\"4\" width=\"20\" height=\"24\" rx=\"3\"/><path class=\"a-p\" d=\"M11 12l2 2 4-4M11 20l2 2 4-4\"/><path d=\"M20 13h2M20 21h2\"/>", "sales": "<path d=\"M4 27h24\"/><path class=\"a-gr\" d=\"M8 23v-6\"/><path class=\"a-gr\" style=\"animation-delay:.2s\" d=\"M14 23V11\"/><path class=\"a-gr\" style=\"animation-delay:.4s\" d=\"M20 23v-8\"/><path class=\"a-gr\" style=\"animation-delay:.6s\" d=\"M26 23V6\"/>", "rms": "<path d=\"M8 4h16v24l-4-2.5-4 2.5-4-2.5L8 28z\"/><path class=\"a-p\" d=\"M12 11h8M12 16h8M12 21h4\"/>", "sku": "<path d=\"M16 5l11 6v13l-11 6-11-6V11z\"/><path d=\"M5 11l11 6 11-6M16 17v13\"/><path class=\"a-p\" d=\"M27 2v5M24.5 4.5h5\"/>", "km": "<path class=\"a-dash\" d=\"M5 26c7 0 4-9 11-9s5-8 8-8\"/><circle cx=\"5\" cy=\"26\" r=\"2\"/><path class=\"a-bob\" d=\"M25 3a4 4 0 014 4c0 4-4 8-4 8s-4-4-4-8a4 4 0 014-4z\"/>", "desk": "<rect x=\"4\" y=\"10\" width=\"24\" height=\"17\" rx=\"3\"/><path d=\"M12 10V7a2 2 0 012-2h4a2 2 0 012 2v3M4 18h24\"/><path class=\"a-p\" d=\"M14 18v3h4v-3\"/>", "samples": "<path d=\"M12 4h8M14 4v8l-7 13a2.5 2.5 0 002.2 3.5h13.6A2.5 2.5 0 0025 25l-7-13V4\"/><path d=\"M10 21h12\"/><circle class=\"a-bob\" cx=\"16\" cy=\"24\" r=\"1.3\"/>", "stat": "<path class=\"a-bob\" d=\"M5 27l2-7L21 6l5 5L12 25z\"/><path d=\"M18 9l5 5M5 27l7-2\"/>", "carton": "<path d=\"M4 10l12-6 12 6v12l-12 6-12-6z\"/><path d=\"M4 10l12 6 12-6M16 16v12\"/><path class=\"a-dash\" d=\"M10 7l12 6\"/>", "sret": "<path class=\"a-dash\" d=\"M5 14a11 11 0 1111 13\"/><path d=\"M4 7v7h7\"/><rect class=\"a-p\" x=\"12\" y=\"12\" width=\"8\" height=\"8\" rx=\"1.5\"/>", "dtrack": "<path d=\"M3 9h15v13H3z\"/><path d=\"M18 13h6l4 4v5H18z\"/><circle class=\"a-bob\" cx=\"9\" cy=\"23\" r=\"2.5\"/><circle class=\"a-bob\" cx=\"23\" cy=\"23\" r=\"2.5\"/><path class=\"a-p\" d=\"M7 14h7\"/>", "depot": "<path class=\"a-bob\" d=\"M3 13L16 4l13 9\"/><path d=\"M5 13v15h22V13\"/><path d=\"M10 28V18h12v10M10 23h12\"/>", "man": "<circle class=\"a-bob\" cx=\"11\" cy=\"10\" r=\"4\"/><circle cx=\"23\" cy=\"11\" r=\"3\"/><path d=\"M3 27c0-5 4-8 8-8s8 3 8 8M20 20c1-.6 2-.8 3-.8 4 0 6 3 6 8\"/>", "docs": "<path d=\"M7 3h13l6 6v20H7z\"/><path d=\"M20 3v6h6\"/><path class=\"a-p\" d=\"M11 15h10M11 20h10M11 25h6\"/>", "hr": "<rect x=\"5\" y=\"4\" width=\"22\" height=\"24\" rx=\"3\"/><circle class=\"a-bob\" cx=\"16\" cy=\"14\" r=\"3.5\"/><path d=\"M9 25c1-4 4-5 7-5s6 1 7 5M13 4v2h6V4\"/>", "prints": "<path d=\"M9 11V4h14v7M9 23H5V11h22v12h-4\"/><rect x=\"9\" y=\"18\" width=\"14\" height=\"10\" rx=\"1\"/><path class=\"a-p\" d=\"M12 22h8M12 25h5\"/>", "vgen": "<path d=\"M6 4h20v24l-3.3-2.4L19.3 28 16 25.6 12.7 28l-3.4-2.4L6 28z\"/><path class=\"a-p\" d=\"M11 11h10M11 16h10\"/><path d=\"M11 21h6\"/>", "mis": "<path d=\"M16 4v12h12A12 12 0 0016 4z\"/><path class=\"a-bob\" d=\"M14 8a11 11 0 1010 10\"/>"};
+const IC={"ostrack": "<rect x=\"5\" y=\"5\" width=\"22\" height=\"22\" rx=\"4\"/><path class=\"a-p\" d=\"M10 13l2 2 3-3M10 21l2 2 3-3\"/><path d=\"M19 14h4M19 22h4\"/>", "cheque": "<rect x=\"3\" y=\"8\" width=\"26\" height=\"16\" rx=\"3\"/><path d=\"M8 14h9M8 18h5M22 17l2 2 3-4\"/><path class=\"a-x\" d=\"M5 10v12\" stroke-dasharray=\"2 2\"/>", "acc": "<rect x=\"6\" y=\"4\" width=\"20\" height=\"24\" rx=\"3\"/><path class=\"a-p\" d=\"M11 12l2 2 4-4M11 20l2 2 4-4\"/><path d=\"M20 13h2M20 21h2\"/>", "sales": "<path d=\"M4 27h24\"/><path class=\"a-gr\" d=\"M8 23v-6\"/><path class=\"a-gr\" style=\"animation-delay:.2s\" d=\"M14 23V11\"/><path class=\"a-gr\" style=\"animation-delay:.4s\" d=\"M20 23v-8\"/><path class=\"a-gr\" style=\"animation-delay:.6s\" d=\"M26 23V6\"/>", "rms": "<path d=\"M8 4h16v24l-4-2.5-4 2.5-4-2.5L8 28z\"/><path class=\"a-p\" d=\"M12 11h8M12 16h8M12 21h4\"/>", "sku": "<path d=\"M16 5l11 6v13l-11 6-11-6V11z\"/><path d=\"M5 11l11 6 11-6M16 17v13\"/><path class=\"a-p\" d=\"M27 2v5M24.5 4.5h5\"/>", "km": "<path class=\"a-dash\" d=\"M5 26c7 0 4-9 11-9s5-8 8-8\"/><circle cx=\"5\" cy=\"26\" r=\"2\"/><path class=\"a-bob\" d=\"M25 3a4 4 0 014 4c0 4-4 8-4 8s-4-4-4-8a4 4 0 014-4z\"/>", "desk": "<rect x=\"4\" y=\"10\" width=\"24\" height=\"17\" rx=\"3\"/><path d=\"M12 10V7a2 2 0 012-2h4a2 2 0 012 2v3M4 18h24\"/><path class=\"a-p\" d=\"M14 18v3h4v-3\"/>", "samples": "<path d=\"M12 4h8M14 4v8l-7 13a2.5 2.5 0 002.2 3.5h13.6A2.5 2.5 0 0025 25l-7-13V4\"/><path d=\"M10 21h12\"/><circle class=\"a-bob\" cx=\"16\" cy=\"24\" r=\"1.3\"/>", "stat": "<path class=\"a-bob\" d=\"M5 27l2-7L21 6l5 5L12 25z\"/><path d=\"M18 9l5 5M5 27l7-2\"/>", "carton": "<path d=\"M4 10l12-6 12 6v12l-12 6-12-6z\"/><path d=\"M4 10l12 6 12-6M16 16v12\"/><path class=\"a-dash\" d=\"M10 7l12 6\"/>", "sret": "<path class=\"a-dash\" d=\"M5 14a11 11 0 1111 13\"/><path d=\"M4 7v7h7\"/><rect class=\"a-p\" x=\"12\" y=\"12\" width=\"8\" height=\"8\" rx=\"1.5\"/>", "dtrack": "<path d=\"M3 9h15v13H3z\"/><path d=\"M18 13h6l4 4v5H18z\"/><circle class=\"a-bob\" cx=\"9\" cy=\"23\" r=\"2.5\"/><circle class=\"a-bob\" cx=\"23\" cy=\"23\" r=\"2.5\"/><path class=\"a-p\" d=\"M7 14h7\"/>", "depot": "<path class=\"a-bob\" d=\"M3 13L16 4l13 9\"/><path d=\"M5 13v15h22V13\"/><path d=\"M10 28V18h12v10M10 23h12\"/>", "man": "<circle class=\"a-bob\" cx=\"11\" cy=\"10\" r=\"4\"/><circle cx=\"23\" cy=\"11\" r=\"3\"/><path d=\"M3 27c0-5 4-8 8-8s8 3 8 8M20 20c1-.6 2-.8 3-.8 4 0 6 3 6 8\"/>", "docs": "<path d=\"M7 3h13l6 6v20H7z\"/><path d=\"M20 3v6h6\"/><path class=\"a-p\" d=\"M11 15h10M11 20h10M11 25h6\"/>", "hr": "<rect x=\"5\" y=\"4\" width=\"22\" height=\"24\" rx=\"3\"/><circle class=\"a-bob\" cx=\"16\" cy=\"14\" r=\"3.5\"/><path d=\"M9 25c1-4 4-5 7-5s6 1 7 5M13 4v2h6V4\"/>", "prints": "<path d=\"M9 11V4h14v7M9 23H5V11h22v12h-4\"/><rect x=\"9\" y=\"18\" width=\"14\" height=\"10\" rx=\"1\"/><path class=\"a-p\" d=\"M12 22h8M12 25h5\"/>", "pdftool": "<path d=\"M7 3h13l6 6v20H7z\"/><path d=\"M20 3v6h6\"/><path class=\"a-p\" d=\"M11 16h10M11 21h10\"/><path d=\"M11 26h5\"/>", "vgen": "<path d=\"M6 4h20v24l-3.3-2.4L19.3 28 16 25.6 12.7 28l-3.4-2.4L6 28z\"/><path class=\"a-p\" d=\"M11 11h10M11 16h10\"/><path d=\"M11 21h6\"/>", "mis": "<path d=\"M16 4v12h12A12 12 0 0016 4z\"/><path class=\"a-bob\" d=\"M14 8a11 11 0 1010 10\"/>", "pdesk": "<rect x=\"4\" y=\"10\" width=\"24\" height=\"17\" rx=\"3\"/><path d=\"M12 10V7a2 2 0 012-2h4a2 2 0 012 2v3M4 18h24\"/><path class=\"a-p\" d=\"M14 18v3h4v-3\"/>"};
 const ico=id=>`<svg viewBox="0 0 32 32" aria-hidden="true">${IC[id]||""}</svg>`;
 const mono=n=>n.replace(/[^A-Za-z ]/g,"").split(" ").filter(Boolean).map(w=>w[0]).join("").slice(0,2).toUpperCase();
 const calm=()=>document.body.classList.contains("no-anim")||matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -504,26 +506,27 @@ function ripple(el,p){if(calm())return;const r=el.getBoundingClientRect(),d=Math
 function toast(t){if(calm())return;document.querySelectorAll(".toast").forEach(x=>x.remove());const d=document.createElement("div");d.className="toast";d.style.setProperty("--c",D[t.d][1]);d.innerHTML=`<span class="ico">${ico(t.id)}</span><span>Opening <b>${t.n}</b></span><em>↗</em>`;document.body.appendChild(d);setTimeout(()=>{d.classList.add("out");setTimeout(()=>d.remove(),320)},1600)}
 function fx(e,t){const p=pos(e);burst(p.x,p.y,D[t.d][1],12);if(!t.pick)toast(t)}
 function card(t){
-  const el=document.createElement(t.pick?"div":"a");el.className="card";el.dataset.id=t.id;el.style.setProperty("--c",D[t.d][1]);
-  if(t.pick){el.tabIndex=0;el.setAttribute("role","button")}else{el.href=t.u;el.target="_blank";el.rel="noopener"}
+  const el=document.createElement("div");el.className="card";el.dataset.id=t.id;el.style.setProperty("--c",D[t.d][1]);
+  el.tabIndex=0;el.setAttribute("role","button");
   const p=row("e","Entry",t.e)+row("v","Viewer",t.v)+row("u","Users",t.x);
   el.innerHTML=`<div class="top"><span class="ico">${ico(t.id)}</span><div><h3>${t.n}${t.pick?"<s>2 sites</s>":""}</h3><p>${t.t}</p></div></div><span class="arr">↗</span>${p?`<div class="ppl">${p}</div>`:""}<span class="wm">${ico(t.id)}</span>`;
   const s=document.createElement("span");s.className="star";s.setAttribute("role","button");s.tabIndex=0;s.setAttribute("aria-label","Pin "+t.n);s.setAttribute("aria-pressed",favs.includes(t.id));s.innerHTML=star;if(jp===t.id)s.classList.add("boing");
   const tog=e=>{e.preventDefault();e.stopPropagation();const on=!favs.includes(t.id);favs=on?[...favs,t.id]:favs.filter(x=>x!==t.id);st.set("fav3",favs);if(on){const r=s.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,"#ffb648",12,true);jp=t.id}render();jp=null};
   s.onclick=tog;s.onkeydown=e=>{if(e.key==="Enter"||e.key===" ")tog(e)};el.appendChild(s);
-  el.addEventListener("click",e=>{visit(t.id);const p=pos(e);ripple(el,p);burst(p.x,p.y,D[t.d][1],14);el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop");if(t.pick)openPick(t);else toast(t)});
-  el.addEventListener("keydown",e=>{if(t.pick&&e.key==="Enter"){visit(t.id);openPick(t)}});
+  el.addEventListener("click",e=>{visit(t.id);const p=pos(e);ripple(el,p);burst(p.x,p.y,D[t.d][1],14);el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop");if(t.pick)openPick(t);else{toast(t);window.open(t.u,"_blank","noopener")}});
+  el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();visit(t.id);if(t.pick)openPick(t);else{toast(t);window.open(t.u,"_blank","noopener")}}});
   return el;
 }
 function openProcess(w){$("#pt").textContent=w.n;$("#ps").textContent=w.t;$("#pdlg").showModal()}
 function visit(id){recent=[id,...recent.filter(x=>x!==id)].slice(0,6);st.set("rec3",recent);renderRecent()}
 function openPick(t){$("#dt").textContent=t.n;$("#do").innerHTML=t.pick.map(([l,u])=>`<a class="opt" href="${u}" target="_blank" rel="noopener">${l}<span>↗</span></a>`).join("");$("#dlg").showModal()}
-function chipEl(t,fav){const a=document.createElement("a");a.href=t.u||"#";a.style.setProperty("--c",D[t.d][1]);
-  if(t.pick)a.onclick=e=>{e.preventDefault();fx(e,t);visit(t.id);openPick(t)};else{a.target="_blank";a.rel="noopener";a.onclick=e=>{fx(e,t);visit(t.id)}}
+function chipEl(t,fav){const a=document.createElement("div");a.style.setProperty("--c",D[t.d][1]);a.tabIndex=0;a.setAttribute("role","button");
+  if(t.pick)a.onclick=e=>{fx(e,t);visit(t.id);openPick(t)};else{a.onclick=e=>{fx(e,t);visit(t.id);window.open(t.u,"_blank","noopener")}}
+  a.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();a.onclick(e)}};
   if(fav)a.className="fv";a.innerHTML=(fav?"<b>★</b>":"")+t.n;return a}
 function renderRecent(){const r=recent.map(by).filter(Boolean);$("#recSec").hidden=!r.length;const el=$("#rec");el.innerHTML="";r.forEach(t=>el.appendChild(chipEl(t,false)))}
 const match=(t,s)=>!s||[t.n,t.t,D[t.d][0],...(t.e||[]),...(t.v||[]),...(t.x||[])].join(" ").toLowerCase().includes(s);
-const COLS=[["fin","pur","ta"],["sam","emr"],["dep","gen","hr","prn"]];
+const COLS=[["fin","pur","ta"],["sam","emr"],["dep","gen","hr","prn"],["pdk"]];
 function render(){
   const can=window.flipOK&&!enter&&!calm(),old=new Map();
   if(can)document.querySelectorAll("#boards .card[data-id],#wip .card[data-id]").forEach(c=>old.set(c.dataset.id,{n:c,r:c.getBoundingClientRect()}));
@@ -545,7 +548,7 @@ function _render(){
     keys.filter(k=>dept==="all"||k===dept).forEach(k=>{
       const list=T.filter(t=>t.d===k&&!t.low&&match(t,s));if(cfg.az)list.sort((a,b)=>a.n.localeCompare(b.n));if(!list.length)return;shown+=list.length;
       const b=document.createElement("section");b.className="board";b.style.setProperty("--c",D[k][1]);
-      b.innerHTML=`<div class="bh"><h2>${D[k][0]} ${k==="gen"||k==="prn"||k==="emr"?"":"Dept"}</h2></div><div class="list"></div>`;
+      b.innerHTML=`<div class="bh"><h2>${D[k][0]} ${k==="gen"||k==="prn"||k==="emr"||k==="pdk"?"":"Dept"}</h2></div><div class="list"></div>`;
       const l=b.querySelector(".list");list.forEach(t=>l.appendChild(card(t)));col.appendChild(b)});
     if(col.children.length)bd.appendChild(col)});
   $("#empty").hidden=!!shown;
@@ -556,7 +559,7 @@ function _render(){
   wp.querySelectorAll(".wip").forEach((el,i)=>{el.tabIndex=0;el.setAttribute("role","button");const go=e=>{if(e&&e.type==="click"){const p=pos(e);ripple(el,p);burst(p.x,p.y,"#ffb648",10)}openProcess(W[i])};el.onclick=go;el.onkeydown=e=>{if(e.key==="Enter")go()}});
   const low=T.filter(t=>t.low&&(dept==="all"||dept===t.d)&&match(t,s));low.forEach(t=>wp.appendChild(card(t)));
   $("#wipSec").hidden=!(showMis||low.length);
-  if(enter){if(!calm())document.querySelectorAll("#boards .bh,#boards .card,#fav a,#rec a,#wip .card").forEach((el,i)=>{el.classList.add("cin");el.style.setProperty("--d",Math.min(i*40,700)+"ms")});enter=false}
+  if(enter){if(!calm())document.querySelectorAll("#boards .bh,#boards .card,#fav div,#rec div,#wip .card").forEach((el,i)=>{el.classList.add("cin");el.style.setProperty("--d",Math.min(i*40,700)+"ms")});enter=false}
   document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.k===dept));
 }
 function buildChips(){$("#chips").innerHTML="";
@@ -613,7 +616,7 @@ apply();
   function resolveCards(){
     const items=[...document.querySelectorAll("#boards .card,#wip .card")].map(c=>{const r=c.getBoundingClientRect();return{c,k:Math.round(r.top/70),l:r.left}}).sort((a,b)=>a.k-b.k||a.l-b.l);
     document.querySelectorAll("#boards .bh").forEach((h,i)=>{h.classList.add("cin");h.style.setProperty("--d",i*90+"ms")});
-    document.querySelectorAll("#fav a,#rec a").forEach((a,i)=>{a.classList.add("cin");a.style.setProperty("--d",Math.min(i*40,400)+"ms")});
+    document.querySelectorAll("#fav div,#rec div").forEach((a,i)=>{a.classList.add("cin");a.style.setProperty("--d",Math.min(i*40,400)+"ms")});
     items.forEach(({c},i)=>{
       const ov=document.createElement("div");ov.className="ld";
       ov.innerHTML='<div class="ld-in"><div class="sk-top"><b class="sk-ico"><svg class="ld-ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></b><div class="sk-t"><b></b><b></b></div></div><div class="sk-p"><b></b><b></b><b></b></div><i class="ld-pg"></i></div><i class="ld-edge"></i>';
@@ -760,7 +763,7 @@ apply();
 
 /* ===== Server & connectivity test (password protected) ===== */
 (function(){
-  const OK=1239142953200551;
+  const OK=7834890999945500;
   const H=x=>{let h1=0xdeadbeef,h2=0x41c6ce57;for(let i=0;i<x.length;i++){const c=x.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)};
   const pw=$("#pwdlg"),pin=$("#pwin"),perr=$("#pwerr"),ct=$("#ctest"),svg=$("#ctsvg"),SL=1500,TO=8000,NS="http://www.w3.org/2000/svg";
   const el=(n,a={},p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
@@ -793,8 +796,8 @@ apply();
     jobs=[
       {g:"c",n:"Internet connection",sub:"gstatic.com",u:"https://www.gstatic.com/generate_204",off:!navigator.onLine},
       {g:"c",n:"Portal host",sub:"pristinepearl.github.io",u:B+"Home/alt-logo.png"},
-      {g:"c",n:"Google Apps Script",sub:"script.google.com",u:"https://script.google.com/"},
-      {g:"c",n:"Google Sheets / Drive",sub:"docs.google.com",u:"https://docs.google.com/"}
+      {g:"c",n:"App Backend",sub:"server",u:"https://script.google.com/"},
+      {g:"c",n:"Cloud Storage",sub:"server",u:"https://docs.google.com/"}
     ];
     T.forEach(t=>{const list=t.pick?t.pick.map(([l,u])=>[t.n+" · "+l,u]):(t.u?[[t.n,t.u]]:[]);list.forEach(([n,u])=>jobs.push({g:"t",n,sub:host(u),u,d:t.d,id:t.id}))});
     res=new Array(jobs.length).fill(null);
